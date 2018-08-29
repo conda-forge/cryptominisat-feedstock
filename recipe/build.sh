@@ -5,8 +5,8 @@ cd "$SRC_DIR"
 
 mkdir -p build && cd build
 
-if [[ $(uname) == 'Darwin' ]] && [[ $PY3K == 1 ]]; then
-    export LDFLAGS="${LDFLAGS} -undefined dynamic_lookup"
+if [[ ${target_platform}  == osx-64 ]] && [[ $PY3K == 1 ]]; then
+  export LDFLAGS="${LDFLAGS} -undefined dynamic_lookup"
 fi
 
 # * ENABLE_TESTING: Testing requires lit which is not packaged yet:

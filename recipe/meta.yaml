@@ -18,26 +18,25 @@ build:
 
 requirements:
   build:
-    - {{ compiler('cxx') }}
-    - cmake
+    - {{ compiler('cxx') }}  # [not win]
+    - m2-filesystem
+    - m2-coreutils
+    - m2-make
+    - m2w64-toolchain        # [win]
+    - cmake                  # [not win]
   host:
     - python
     - setuptools
-    - boost-cpp 1.67.0
-    - zlib
-    - m4ri 20140914
+    - libboost
+    - cmake                  # [win]
   run:
     - python
-    - boost-cpp 1.67.0
-    - zlib
-    - m4ri 20140914
+    - m2w64-gcc-libs         # [win]
 
 test:
   imports:
     - pycryptosat
   commands:
-    - conda inspect linkages -p $PREFIX cryptominisat  # [not win]
-    - conda inspect objects -p $PREFIX cryptominisat  # [osx]
     - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE
     - echo -e '1 0\n1 -1 0' | cryptominisat5 | grep SATISFIABLE
 
