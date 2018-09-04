@@ -3,18 +3,16 @@
 {% set sha256 = "b2751f8380a59c4885bea4c297536f0af2230306b1458d3e6b78d6e29f37b9d2" %}
 
 package:
-  name: '{{ name|lower }}'
-  version: '{{ version }}'
+  name: pycryptosat
+  version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
-  url: https://github.com/msoos/{{ name }}/archive/{{ version }}.tar.gz
+  url: https://github.com/msoos/cryptominisat/archive/{{ commit }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   number: 0
-  run_exports:
-   - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
+  skip: True  # [win]
 
 requirements:
   build:
@@ -27,11 +25,10 @@ requirements:
   host:
     - python
     - setuptools
-    - libboost
-    - cmake                  # [win]
+    - zlib
   run:
     - python
-    - m2w64-gcc-libs         # [win]
+    - zlib
 
 test:
   imports:
