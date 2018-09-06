@@ -12,7 +12,6 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: {{ build }}
   skip: True  # [win and vc<14]
 
 requirements:
@@ -29,6 +28,7 @@ requirements:
 outputs:
   - name: libcryptominisat
     build:
+      number: {{ build }}
       run_exports:
         - {{ pin_subpackage('libcryptominisat', max_pin='x.x') }}
     script: install-lib.sh
@@ -64,6 +64,8 @@ outputs:
       imports:
         - pycryptosat
   - name: cryptominisat
+    build:
+      number: {{ build }}
     script: install-exec.sh
     requirements:
       build:
