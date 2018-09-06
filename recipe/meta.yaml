@@ -3,16 +3,16 @@
 {% set sha256 = "b2751f8380a59c4885bea4c297536f0af2230306b1458d3e6b78d6e29f37b9d2" %}
 
 package:
-  name: pycryptosat
+  name: pycryptosat-split
   version: {{ version }}
 
 source:
-  url: https://github.com/msoos/cryptominisat/archive/{{ commit }}.tar.gz
+  url: https://github.com/msoos/cryptominisat/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   number: 0
-  skip: True  # [win]
+  skip: True  # [win and vc<14]
 
 requirements:
   build:
@@ -23,19 +23,63 @@ requirements:
     - m2w64-toolchain        # [win]
     - cmake                  # [not win]
   host:
-    - python
-    - setuptools
-    - zlib
-  run:
-    - python
     - zlib
 
-test:
-  imports:
-    - pycryptosat
-  commands:
-    - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE
-    - echo -e '1 0\n1 -1 0' | cryptominisat5 | grep SATISFIABLE
+outputs:
+  - name: libcryptominisat
+    build:
+      run_exports:
+        - {{ pin_subpackage('libcryptominisat', max_pin='x.x') }}
+    script: install-lib.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - cmake
+      host:
+        - zlib
+    test:
+      commands:
+        - test -e $PREFIX/lib/libcryptominisat5.5.6.dylib    # [osx]
+        - test -e $PREFIX/lib/libcryptominisat5.so.5.6       # [linux]
+        - IF NOT EXIST %LIBRARY_BIN%\\libcryptominisat5.5.6.dll exit 1       # [win]
+  - name: pycryptosat
+    script: install-py.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - cmake
+      host:
+        - python
+        - setuptools
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+      run:
+        - python
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+    test:
+      imports:
+        - pycryptosat
+  - name: cryptominisat
+    script: install-exec.sh
+    requirements:
+      build:
+        - {{ compiler('cxx') }}
+        - cmake
+      host:
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        - boost-cpp  {{ boost }}
+        - zlib
+        # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
+        # - m4ri    20140914            # [unix and gpl_ok]
+        # - gpl                         # [unix and gpl_ok]
+      run:
+        - boost-cpp  {{ boost }}
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        # - m4ri    20140914            # [unix and gpl_ok]
+        # - gpl                         # [unix and gpl_ok]
+    test:
+      commands:
+        - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE   # [unix]
+        - echo -e '1 0\n1 -1 0' | cryptominisat5 | grep SATISFIABLE   # [unix]
 
 about:
   home: https://github.com/msoos/cryptominisat
