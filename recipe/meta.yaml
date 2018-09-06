@@ -84,7 +84,7 @@ outputs:
         - cmake
       host:
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
-        - boost-cpp  {{ boost }}
+        - boost-cpp
         - zlib
         # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
         # - m4ri    20140914            # [unix and gpl_ok]
