@@ -15,6 +15,7 @@ fi
 # * ENABLE_TESTING: Testing requires lit which is not packaged yet:
 #   https://github.com/conda-forge/staged-recipes/issues/4630
 cmake \
+    -G "${CMAKE_GENERATOR}" \
     "-DCMAKE_INSTALL_PREFIX=$PREFIX" \
     -DENABLE_PYTHON_INTERFACE=OFF \
     -DENABLE_TESTING=OFF \
@@ -23,4 +24,4 @@ cmake \
     ${extra_opts} \
     ..
 
-make -j${CPU_COUNT} install
+cmake --build . --target install --config Release

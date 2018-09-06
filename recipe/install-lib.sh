@@ -2,4 +2,4 @@
 set -eu -o pipefail
 
 pushd build
-make -j${CPU_COUNT} install
+cmake --build . --target install --config Release
