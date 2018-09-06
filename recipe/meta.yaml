@@ -4,7 +4,7 @@
 {% set build = 0 %}
 
 package:
-  name: pycryptosat-split
+  name: cryptominisat-split
   version: {{ version }}
 
 source:
