@@ -42,12 +42,6 @@ outputs:
         - make
       host:
         - zlib
-        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
-      run:
-        # gpl_ok stuff requires creation of a gpl metapackage.
-        # It should have a track_feature, so that it is unfavorable unless explicitly requested.
-        # - gpl                      # [unix and gpl_ok]
-        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
     test:
       commands:
         - test -e $PREFIX/lib/libcryptominisat5.5.6.dylib    # [osx]
@@ -65,11 +59,9 @@ outputs:
       host:
         - python
         - setuptools
-        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
       run:
         - python
-        # - gpl                      # [unix and gpl_ok]
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
     test:
       imports:
@@ -91,15 +83,17 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake
       host:
-        - boost-cpp {{ boost }}
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        - boost-cpp  {{ boost }}
         - zlib
-        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
-        - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
+        # - m4ri    20140914            # [unix and gpl_ok]
+        # - gpl                         # [unix and gpl_ok]
       run:
-        - boost-cpp {{ boost }}
-        # - gpl                      # [unix and gpl_ok]
-        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
+        - boost-cpp  {{ boost }}
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        # - m4ri    20140914            # [unix and gpl_ok]
+        # - gpl                         # [unix and gpl_ok]
     test:
       commands:
         - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE   # [unix]

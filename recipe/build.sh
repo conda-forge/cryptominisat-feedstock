@@ -12,6 +12,11 @@ if [ "${gpl_ok}" == "True" ]; then
     extra_opts="-DMIT=ON "
 fi
 
+extra_opts=""
+if [ "${gpl_ok}" == "True" ]; then
+    extra_opts="-DMIT=ON "
+fi
+
 # * ENABLE_TESTING: Testing requires lit which is not packaged yet:
 #   https://github.com/conda-forge/staged-recipes/issues/4630
 cmake \
