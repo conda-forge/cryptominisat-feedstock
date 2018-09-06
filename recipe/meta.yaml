@@ -90,7 +90,7 @@ outputs:
         # - m4ri    20140914            # [unix and gpl_ok]
         # - gpl                         # [unix and gpl_ok]
       run:
-        - boost-cpp  {{ boost }}
+        - boost-cpp
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
         # - m4ri    20140914            # [unix and gpl_ok]
         # - gpl                         # [unix and gpl_ok]
