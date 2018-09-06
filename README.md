@@ -1,5 +1,5 @@
-About cryptominisat
-===================
+About cryptominisat-split
+=========================
 
 Home: https://github.com/msoos/cryptominisat
 
@@ -16,7 +16,7 @@ Current build status
 
 [![Linux](https://img.shields.io/circleci/project/github/conda-forge/cryptominisat-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/cryptominisat-feedstock)
 [![OSX](https://img.shields.io/travis/conda-forge/cryptominisat-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/cryptominisat-feedstock)
-![Windows disabled](https://img.shields.io/badge/Windows-disabled-lightgrey.svg)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/cryptominisat-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/cryptominisat-feedstock/branch/master)
 
 Current release info
 ====================
@@ -24,20 +24,22 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cryptominisat-green.svg)](https://anaconda.org/conda-forge/cryptominisat) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cryptominisat.svg)](https://anaconda.org/conda-forge/cryptominisat) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cryptominisat.svg)](https://anaconda.org/conda-forge/cryptominisat) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cryptominisat.svg)](https://anaconda.org/conda-forge/cryptominisat) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libcryptominisat-green.svg)](https://anaconda.org/conda-forge/libcryptominisat) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libcryptominisat.svg)](https://anaconda.org/conda-forge/libcryptominisat) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libcryptominisat.svg)](https://anaconda.org/conda-forge/libcryptominisat) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libcryptominisat.svg)](https://anaconda.org/conda-forge/libcryptominisat) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pycryptosat-green.svg)](https://anaconda.org/conda-forge/pycryptosat) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pycryptosat.svg)](https://anaconda.org/conda-forge/pycryptosat) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pycryptosat.svg)](https://anaconda.org/conda-forge/pycryptosat) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pycryptosat.svg)](https://anaconda.org/conda-forge/pycryptosat) |
 
-Installing cryptominisat
-========================
+Installing cryptominisat-split
+==============================
 
-Installing `cryptominisat` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `cryptominisat-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `cryptominisat` can be installed with:
+Once the `conda-forge` channel has been enabled, `cryptominisat, libcryptominisat, pycryptosat` can be installed with:
 
 ```
-conda install cryptominisat
+conda install cryptominisat libcryptominisat pycryptosat
 ```
 
 It is possible to list all of the versions of `cryptominisat` available on your platform with:
@@ -83,17 +85,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating cryptominisat-feedstock
-================================
+Updating cryptominisat-split-feedstock
+======================================
 
-If you would like to improve the cryptominisat recipe or build a new
+If you would like to improve the cryptominisat-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/cryptominisat-feedstock are
+Note that all branches in the conda-forge/cryptominisat-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
