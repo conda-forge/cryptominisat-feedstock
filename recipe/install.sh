@@ -19,9 +19,8 @@ cmake \
     -G "${CMAKE_GENERATOR}" \
     -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
     -DENABLE_TESTING=OFF \
-    -DCMAKE_BUILD_TYPE=Release
     ${extra_opts} \
     ..
 
-cmake --build . --target install --config Release -- -j${CPU_COUNT}
+cmake --build . --target install -- -j${CPU_COUNT}
 popd && rm -r build

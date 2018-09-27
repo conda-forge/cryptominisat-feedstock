@@ -11,6 +11,8 @@ package:
 source:
   url: https://github.com/msoos/cryptominisat/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - remove-debug-symbols.patch
 
 build:
   number: {{ build }}
