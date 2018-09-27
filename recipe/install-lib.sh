@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eu -o pipefail
 
-pushd build
-cmake --build . --target install --config Release
+bash "${RECIPE_DIR}"/install.sh \
+    -DENABLE_PYTHON_INTERFACE=OFF \
+    -DONLY_SIMPLE=ON

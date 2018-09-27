@@ -2,6 +2,7 @@
 {% set version = "5.6.5" %}
 {% set sha256 = "b2751f8380a59c4885bea4c297536f0af2230306b1458d3e6b78d6e29f37b9d2" %}
 {% set build = 0 %}
+{% set m4ri_version = 20140914 %}
 
 package:
   name: cryptominisat-split
@@ -39,6 +40,12 @@ outputs:
         - make
       host:
         - zlib
+        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
+      run:
+        # gpl_ok stuff requires creation of a gpl metapackage.
+        # It should have a track_feature, so that it is unfavorable unless explicitly requested.
+        # - gpl                      # [unix and gpl_ok]
+        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
     test:
       commands:
         - test -e $PREFIX/lib/libcryptominisat5.5.6.dylib    # [osx]
@@ -56,9 +63,11 @@ outputs:
       host:
         - python
         - setuptools
+        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
       run:
         - python
+        # - gpl                      # [unix and gpl_ok]
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
     test:
       imports:
@@ -72,17 +81,15 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake
       host:
-        - {{ pin_subpackage('libcryptominisat', exact=True) }}
         - boost-cpp {{ boost }}
         - zlib
-        # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
-        # - m4ri    20140914            # [unix and gpl_ok]
-        # - gpl                         # [unix and gpl_ok]
+        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
+        - {{ pin_subpackage('libcryptominisat', exact=True) }}
       run:
         - boost-cpp {{ boost }}
+        # - gpl                      # [unix and gpl_ok]
+        - m4ri {{ m4ri_version }}  # [unix and gpl_ok]
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
-        # - m4ri    20140914            # [unix and gpl_ok]
-        # - gpl                         # [unix and gpl_ok]
     test:
       commands:
         - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE   # [unix]
