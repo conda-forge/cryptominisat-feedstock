@@ -23,5 +23,5 @@ cmake \
     ${extra_opts} \
     ..
 
-cmake --build . --target install --config Release
+cmake --build . --target install --config Release -- -j${CPU_COUNT}
 popd && rm -r build
