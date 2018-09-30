@@ -16,8 +16,6 @@ channel_targets:
 - conda-forge main
 cxx_compiler:
 - toolchain_cxx
-gpl_ok:
-- 'False'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 macos_min_version:
