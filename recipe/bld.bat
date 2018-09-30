@@ -1,12 +1,6 @@
 mkdir build
 cd build
 
-if "%gpl_ok%" == "True" (
-    set extra_opts="-DMIT=ON "
-) else (
-set extra_opts=""
-)
-
 # * ENABLE_TESTING: Testing requires lit which is not packaged yet:
 #   https://github.com/conda-forge/staged-recipes/issues/4630
 cmake ^
@@ -16,7 +10,7 @@ cmake ^
   -DENABLE_TESTING=OFF ^
   -DONLY_SIMPLE=ON ^
   -DCMAKE_BUILD_TYPE=Release ^
-  %extra_opts% ^
+  -DMIT=ON ^
   ..
 if errorlevel 1 exit /b 1
 

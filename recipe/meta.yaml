@@ -2,7 +2,6 @@
 {% set version = "5.6.5" %}
 {% set sha256 = "b2751f8380a59c4885bea4c297536f0af2230306b1458d3e6b78d6e29f37b9d2" %}
 {% set build = 0 %}
-{% set m4ri_version = 20140914 %}
 
 package:
   name: cryptominisat-split
@@ -83,14 +82,14 @@ outputs:
         - {{ compiler('cxx') }}
         - cmake
       host:
+        - boost-cpp {{ boost }}
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
-        - boost-cpp
         - zlib
         # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
         # - m4ri    20140914            # [unix and gpl_ok]
         # - gpl                         # [unix and gpl_ok]
       run:
-        - boost-cpp
+        - boost-cpp {{ boost }}
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
         # - m4ri    20140914            # [unix and gpl_ok]
         # - gpl                         # [unix and gpl_ok]
