@@ -8,3 +8,11 @@
  
      add_compile_options("$<$<CONFIG:RELEASE>:-O2>")
      add_compile_options("$<$<CONFIG:RELEASE>:-g0>")
+@@ -209,7 +210,6 @@
+     add_compile_options("$<$<CONFIG:RELEASE>:/Ox>")
+     add_compile_options("$<$<CONFIG:RELEASE>:/D>")
+     add_compile_options("$<$<CONFIG:RELEASE>:/NDEBUG>")
+-    add_compile_options("$<$<CONFIG:RELEASE>:/ZI>")
+ 
+     add_compile_options("$<$<CONFIG:DEBUG>:/Od>")
+ 
