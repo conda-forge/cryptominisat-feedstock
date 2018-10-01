@@ -12,7 +12,6 @@ source:
   sha256: {{ sha256 }}
   patches:
     - remove-debug-symbols.patch
-    - 0001-remove-ZI-flag-on-win-incompatible-with-GL.patch
 
 build:
   number: {{ build }}
