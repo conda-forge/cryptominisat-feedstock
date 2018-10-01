@@ -12,31 +12,24 @@ source:
   sha256: {{ sha256 }}
   patches:
     - remove-debug-symbols.patch
+    - 0001-remove-ZI-flag-on-win-incompatible-with-GL.patch
 
 build:
   number: {{ build }}
   skip: True  # [win and vc<14]
 
-requirements:
-  build:
-    - {{ compiler('cxx') }}  # [not win]
-    - m2-filesystem
-    - m2-coreutils
-    - m2-make
-    - m2w64-toolchain        # [win]
-    - cmake                  # [not win]
-  host:
-    - zlib
-
 outputs:
   - name: libcryptominisat
     build:
+      skip: True  # [win and vc<14]
       run_exports:
-        - {{ pin_subpackage('libcryptominisat', max_pin='x.x') }}
-    script: install-lib.sh
+        - {{ pin_subpackage("libcryptominisat", max_pin="x.x") }}
+    # win needs bat so that compiler activation scripts run
+    script: install-lib.sh  # [unix]
+    script: install-lib.bat  # [win]
     requirements:
       build:
-        - {{ compiler('cxx') }}
+        - {{ compiler("cxx") }}
         - cmake
         - make
       host:
@@ -50,15 +43,18 @@ outputs:
     build:
       number: {{ build }}
       skip: True  # [win and vc<14]
-    script: install-py.sh
+    # win needs bat so that compiler activation scripts run
+    script: install-py.sh   # [unix]
+    script: install-py.bat  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
-        - cmake
+        - cmake >=3.12
       host:
         - python
         - setuptools
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
+        - zlib
       run:
         - python
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
@@ -76,7 +72,9 @@ outputs:
           assert not s.is_satisfiable()
           '
   - name: cryptominisat
-    script: install-exec.sh
+    # win needs bat so that compiler activation scripts run
+    script: install-exec.sh   # [unix]
+    script: install-exec.bat  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}

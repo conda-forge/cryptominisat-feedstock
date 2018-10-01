@@ -1,6 +1,6 @@
 set -eu -o pipefail
 
-mkdir build && pushd build
+mkdir -p build && pushd build
 
 if [[ $(uname) == 'Darwin' ]] && [[ $PY3K == 1 ]]; then
     export LDFLAGS="${LDFLAGS} -undefined dynamic_lookup"
@@ -16,5 +16,5 @@ cmake \
     "${@}" \
     ..
 
-cmake --build . --target install -- -j${CPU_COUNT}
+cmake --build . --target install --config RelWithDebInfo
 popd && rm -r build
