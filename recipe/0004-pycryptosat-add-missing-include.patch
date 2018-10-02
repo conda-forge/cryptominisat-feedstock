@@ -1,6 +1,6 @@
 --- python/src/pycryptosat.cpp
 +++ python/src/pycryptosat.cpp
-@@ -28,6 +28,7 @@
+@@ -30,6 +30,7 @@
  #include <structmember.h>
  #include <limits>
  #include <cassert>

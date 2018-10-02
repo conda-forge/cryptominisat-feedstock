@@ -11,12 +11,21 @@
      language = "c++",
 --- python/src/pycryptosat.cpp
 +++ python/src/pycryptosat.cpp
-@@ -1103,7 +1103,7 @@
+@@ -23,6 +23,8 @@
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ **********************************/
++#define XSTR(x) #x
++#define STR(x) XSTR(x)
+ 
+ #include <Python.h>
+ #include <structmember.h>
+@@ -1103,7 +1105,7 @@
  
      Py_INCREF(&pycryptosat_SolverType);
      PyModule_AddObject(m, "Solver", (PyObject *)&pycryptosat_SolverType);
 -    PyModule_AddObject(m, "__version__", PyUnicode_FromString(LIBRARY_VERSION));
-+    PyModule_AddObject(m, "__version__", PyUnicode_FromString("LIBRARY_VERSION"));
++    PyModule_AddObject(m, "__version__", PyUnicode_FromString(STR(LIBRARY_VERSION)));
  
      if (PyErr_Occurred())
      {
