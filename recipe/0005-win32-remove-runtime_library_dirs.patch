@@ -1,10 +1,12 @@
 --- python/setup.py.in
 +++ python/setup.py.in
-@@ -130,7 +130,6 @@
+@@ -129,8 +129,7 @@
+     extra_compile_args = cconf + ['-I${PROJECT_SOURCE_DIR}', '-I${PROJECT_BINARY_DIR}/cmsat5-src'],
      extra_link_args = extra_link_args,
      language = "c++",
-     library_dirs=['.', '${PROJECT_BINARY_DIR}/lib'],
+-    library_dirs=['.', '${PROJECT_BINARY_DIR}/lib'],
 -    runtime_library_dirs=['${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}'],
++    library_dirs=['.', '${PROJECT_BINARY_DIR}/lib', '${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}'],
      libraries = [libname]
  )
  
