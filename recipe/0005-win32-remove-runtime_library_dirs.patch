@@ -1,0 +1,21 @@
+--- python/setup.py.in
++++ python/setup.py.in
+@@ -130,7 +130,6 @@
+     extra_link_args = extra_link_args,
+     language = "c++",
+     library_dirs=['.', '${PROJECT_BINARY_DIR}/lib'],
+-    runtime_library_dirs=['${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}'],
+     libraries = [libname]
+ )
+ 
+--- python/CMakeLists.txt
++++ python/CMakeLists.txt
+@@ -54,7 +54,7 @@
+ 
+ add_custom_command(OUTPUT ${OUTPUT}/timestamp
+                    COMMAND ${PYTHON_EXECUTABLE}
+-                   ARGS setup.py build_ext --inplace --rpath ../lib
++                   ARGS setup.py build_ext --inplace
+                    DEPENDS libcryptominisat5)
+ 
+ add_custom_target(python_interface

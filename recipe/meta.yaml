@@ -15,6 +15,7 @@ source:
     - 0002-remove-debug-symbols.patch
     - 0003-pycryptosat-remove-quote-from-macro.patch
     - 0004-pycryptosat-add-missing-include.patch
+    - 0005-win32-remove-runtime_library_dirs.patch  # [win]
 
 build:
   number: {{ build }}
