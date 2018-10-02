@@ -1,0 +1,22 @@
+--- python/setup.py.in
++++ python/setup.py.in
+@@ -125,7 +125,7 @@
+ modules = dict(
+     name = "pycryptosat",
+     sources = ["${CMAKE_CURRENT_SOURCE_DIR}/src/pycryptosat.cpp"],
+-    define_macros = [('LIBRARY_VERSION', '"' + __LIBRARY_VERSION__ + '"')],
++    define_macros = [('LIBRARY_VERSION', __LIBRARY_VERSION__)],
+     extra_compile_args = cconf + ['-I${PROJECT_SOURCE_DIR}', '-I${PROJECT_BINARY_DIR}/cmsat5-src'],
+     extra_link_args = extra_link_args,
+     language = "c++",
+--- python/src/pycryptosat.cpp
++++ python/src/pycryptosat.cpp
+@@ -1103,7 +1103,7 @@
+ 
+     Py_INCREF(&pycryptosat_SolverType);
+     PyModule_AddObject(m, "Solver", (PyObject *)&pycryptosat_SolverType);
+-    PyModule_AddObject(m, "__version__", PyUnicode_FromString(LIBRARY_VERSION));
++    PyModule_AddObject(m, "__version__", PyUnicode_FromString("LIBRARY_VERSION"));
+ 
+     if (PyErr_Occurred())
+     {
