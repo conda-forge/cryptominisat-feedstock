@@ -13,6 +13,7 @@ source:
   patches:
     - 0001-win32-disable-autolinking.patch
     - 0002-remove-debug-symbols.patch
+    - 0003-pycryptosat-add-missing-include.patch
 
 build:
   number: {{ build }}
