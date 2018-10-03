@@ -1,0 +1,25 @@
+--- python/CMakeLists.txt
++++ python/CMakeLists.txt
+@@ -22,18 +22,18 @@
+ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+ from __future__ import print_function;
+ import sysconfig;
+-print(sysconfig.get_config_var('CFLAGS'), end = '')"
++print(sysconfig.get_config_var('CFLAGS') or '', end='')"
+     OUTPUT_VARIABLE PY_C_CONFIG)
+ 
+ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+ from __future__ import print_function;
+ import sysconfig;
+-print(sysconfig.get_config_var('SHLIBS'), end = '')"
++print(sysconfig.get_config_var('SHLIBS') or '', end='')"
+     OUTPUT_VARIABLE PY_LD_CONFIG)
+ 
+ 
+-string(REPLACE "\n" " " PY_C_CONFIG ${PY_C_CONFIG})
+-string(REPLACE "\n" " " PY_LD_CONFIG ${PY_LD_CONFIG})
++string(REPLACE "\n" " " PY_C_CONFIG "${PY_C_CONFIG}")
++string(REPLACE "\n" " " PY_LD_CONFIG "${PY_LD_CONFIG}")
+ 
+ message(STATUS "Python CFLAGS:  '${PY_C_CONFIG}'")
+ message(STATUS "Python LDFLAGS: '${PY_LD_CONFIG}'")
