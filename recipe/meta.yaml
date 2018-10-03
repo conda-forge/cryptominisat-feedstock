@@ -44,6 +44,15 @@ outputs:
         - test -e $PREFIX/lib/libcryptominisat5.5.6.dylib    # [osx]
         - test -e $PREFIX/lib/libcryptominisat5.so.5.6       # [linux]
         - IF NOT EXIST %LIBRARY_BIN%\cryptominisat5win.dll exit 1       # [win]
+        - cryptominisat5_simple --zero-exit-status <unsat.cnf
+        - cryptominisat5_simple --zero-exit-status <sat.cnf
+        - cryptominisat5_simple <unsat.cnf | grep UNSATISFIABLE  # [unix]
+        - cryptominisat5_simple <sat.cnf   | grep SATISFIABLE    # [unix]
+        - cryptominisat5_simple <unsat.cnf | findstr UNSATISFIABLE  # [win]
+        - cryptominisat5_simple <sat.cnf   | findstr SATISFIABLE    # [win]
+      files:
+        - sat.cnf
+        - unsat.cnf
   - name: pycryptosat
     build:
       number: {{ build }}
@@ -67,15 +76,9 @@ outputs:
       imports:
         - pycryptosat
       commands:
-        - |
-          python -c '
-          from pycryptosat import Solver
-          s = Solver()
-          s.add_clauses([(1,), (1, -1)])
-          assert s.is_satisfiable()
-          s.add_clauses([(1,), (-1,)])
-          assert not s.is_satisfiable()
-          '
+        - python test-pycryptosat.py
+      files:
+        - test-pycryptosat.py
   - name: cryptominisat
     # win needs bat so that compiler activation scripts run
     script: install-exec.sh   # [unix]
@@ -98,8 +101,15 @@ outputs:
         # - gpl                         # [unix and gpl_ok]
     test:
       commands:
-        - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE   # [unix]
-        - echo -e '1 0\n1 -1 0' | cryptominisat5 | grep SATISFIABLE   # [unix]
+        - cryptominisat5 --zero-exit-status <unsat.cnf
+        - cryptominisat5 --zero-exit-status <sat.cnf
+        - cryptominisat5 <unsat.cnf | grep UNSATISFIABLE  # [unix]
+        - cryptominisat5 <sat.cnf   | grep SATISFIABLE    # [unix]
+        - cryptominisat5 <unsat.cnf | findstr UNSATISFIABLE  # [win]
+        - cryptominisat5 <sat.cnf   | findstr SATISFIABLE    # [win]
+      files:
+        - sat.cnf
+        - unsat.cnf
 
 about:
   home: https://github.com/msoos/cryptominisat
