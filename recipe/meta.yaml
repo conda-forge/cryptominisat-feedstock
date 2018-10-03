@@ -17,6 +17,7 @@ source:
     - 0004-pycryptosat-add-missing-include.patch
     - 0005-pycryptosat-fix-sysconfig-returns-none.patch
     - 0006-pycryptosat-win32-remove-runtime_library_dirs.patch  # [win]
+    - 0007-pycryptosat-fix-install-path.patch
 
 build:
   number: {{ build }}
