@@ -10,9 +10,11 @@ source:
   fn: {{ version }}.tar.gz
   url: https://github.com/msoos/{{ name }}/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-Use-CFLAGS.patch
 
 build:
-  number: 0
+  number: 1000
   skip: True  # [win]
   run_exports:
    - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
@@ -24,12 +26,12 @@ requirements:
   host:
     - python
     - setuptools
-    - boost-cpp 1.67.0
+    - boost-cpp
     - zlib
     - m4ri 20140914
   run:
     - python
-    - boost-cpp 1.67.0
+    - boost-cpp
     - zlib
     - m4ri 20140914
 
