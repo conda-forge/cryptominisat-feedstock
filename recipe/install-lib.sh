@@ -1,6 +1,12 @@
-#!/bin/bash
-set -eu -o pipefail
+mkdir -p build_lib && pushd build_lib
 
-bash "${RECIPE_DIR}"/install.sh \
+cmake \
+    -G "${CMAKE_GENERATOR}" \
+    -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
+    -DENABLE_TESTING=OFF \
+    -DMIT=ON \
     -DENABLE_PYTHON_INTERFACE=OFF \
-    -DONLY_SIMPLE=ON
+    -DONLY_SIMPLE=ON \
+    ..
+
+cmake --build . --target install --config RelWithDebInfo

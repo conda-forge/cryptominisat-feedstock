@@ -1,7 +1,7 @@
 {% set name = "cryptominisat" %}
-{% set version = "5.6.5" %}
-{% set sha256 = "b2751f8380a59c4885bea4c297536f0af2230306b1458d3e6b78d6e29f37b9d2" %}
-{% set build = 1 %}
+{% set version = "5.6.6" %}
+{% set sha256 = "95fac3df4311d4fb6e2674b1bce3113056795a2eda51cd807f73bcc4f9b1a2d5" %}
+{% set build = 0 %}
 
 package:
   name: cryptominisat-split
@@ -12,16 +12,20 @@ source:
   sha256: {{ sha256 }}
   patches:
     - 0001-win32-disable-autolinking.patch
-    - 0002-remove-debug-symbols.patch
-    - 0003-pycryptosat-remove-quote-from-macro.patch
-    - 0004-pycryptosat-add-missing-include.patch
-    - 0005-pycryptosat-fix-sysconfig-returns-none.patch
-    - 0006-pycryptosat-win32-remove-runtime_library_dirs.patch  # [win]
+    - 0001-add-LIBRARY_LIB-path-to-building-py-ext-on-win.patch
     - 0007-pycryptosat-fix-install-path.patch
 
 build:
   number: {{ build }}
   skip: True  # [win and vc<14]
+
+# HACK: there's an issue with conda-build looping over python versions.  Forcing this here gives
+#    us a clean slate for each build.
+requirements:
+  host:
+    - python
+  run:
+    - python
 
 outputs:
   - name: libcryptominisat
@@ -29,14 +33,13 @@ outputs:
       skip: True  # [win and vc<14]
       run_exports:
         - {{ pin_subpackage("libcryptominisat", max_pin="x.x") }}
-    # win needs bat so that compiler activation scripts run
     script: install-lib.sh  # [unix]
     script: install-lib.bat  # [win]
     requirements:
       build:
         - {{ compiler("cxx") }}
         - cmake
-        - make
+        - make  # [unix]
       host:
         - zlib
     test:
@@ -57,13 +60,13 @@ outputs:
     build:
       number: {{ build }}
       skip: True  # [win and vc<14]
-    # win needs bat so that compiler activation scripts run
     script: install-py.sh   # [unix]
     script: install-py.bat  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
         - cmake >=3.12
+        - make  # [unix]
       host:
         - python
         - setuptools
@@ -80,25 +83,20 @@ outputs:
       files:
         - test-pycryptosat.py
   - name: cryptominisat
-    # win needs bat so that compiler activation scripts run
     script: install-exec.sh   # [unix]
     script: install-exec.bat  # [win]
     requirements:
       build:
         - {{ compiler('cxx') }}
         - cmake
+        - make  # [unix]
       host:
-        - boost-cpp {{ boost }}
+        - libboost {{ boost }}
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
         - zlib
-        # gpl_ok stuff requires creation of a gpl metapackage.  It should have a track_feature, so that it is unfavorable unless explicitly requested.
-        # - m4ri    20140914            # [unix and gpl_ok]
-        # - gpl                         # [unix and gpl_ok]
       run:
-        - boost-cpp {{ boost }}
+        - {{ pin_compatible("libboost", max_pin="x.x.x") }}
         - {{ pin_subpackage('libcryptominisat', exact=True) }}
-        # - m4ri    20140914            # [unix and gpl_ok]
-        # - gpl                         # [unix and gpl_ok]
     test:
       commands:
         - cryptominisat5 --zero-exit-status <unsat.cnf
