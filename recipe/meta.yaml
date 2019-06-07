@@ -28,12 +28,12 @@ requirements:
     - setuptools
     - boost-cpp
     - zlib
-    - m4ri 20140914
+    - m4ri
   run:
     - python
     - boost-cpp
     - zlib
-    - m4ri 20140914
+    - m4ri
 
 test:
   imports:
