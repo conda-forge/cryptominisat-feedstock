@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu -o pipefail
 
-cd "$SRC_DIR"
+cd "${SRC_DIR}"
 
 mkdir -p build && cd build
 
@@ -16,6 +16,7 @@ cmake \
   -DENABLE_PYTHON_INTERFACE=ON \
   -DFORCE_PYTHON2=`[[ $PY3K == 1 ]] && echo OFF || echo ON` \
   -DENABLE_TESTING=OFF \
-  ..
+  -DBoost_NO_BOOST_CMAKE=ON \
+  ${SRC_DIR}
 
 make -j${CPU_COUNT} install
