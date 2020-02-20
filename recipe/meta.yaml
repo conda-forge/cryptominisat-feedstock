@@ -14,7 +14,7 @@ source:
     - 0001-Use-CFLAGS.patch
 
 build:
-  number: 1
+  number: 2
   skip: True  # [win]
   run_exports:
    - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
