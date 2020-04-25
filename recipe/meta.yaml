@@ -1,10 +1,10 @@
 {% set name = "cryptominisat" %}
-{% set version = "5.6.8" %}
-{% set sha256 = "38add382c2257b702bdd4f1edf73544f29efc6e050516b6cacd2d81e35744b55" %}
+{% set version = "5.7.0" %}
+{% set sha256 = "64908cd8037abb46cc4c4e6cd00aeb8f196fda1e628e9e0eda6c67147fe5e76b" %}
 
 package:
-  name: '{{ name|lower }}'
-  version: '{{ version }}'
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
   fn: {{ version }}.tar.gz
@@ -14,10 +14,10 @@ source:
     - 0001-Use-CFLAGS.patch
 
 build:
-  number: 2
-  skip: True  # [win]
+  number: 0
+  skip: true  # [win]
   run_exports:
-   - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
+    - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
 
 requirements:
   build:
