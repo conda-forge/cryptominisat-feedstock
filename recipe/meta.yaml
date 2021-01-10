@@ -37,8 +37,6 @@ test:
   imports:
     - pycryptosat
   commands:
-    - conda inspect linkages -p $PREFIX cryptominisat  # [not win]
-    - conda inspect objects -p $PREFIX cryptominisat  # [osx]
     - echo -e '1 0\n-1 0' | cryptominisat5 | grep UNSATISFIABLE
     - echo -e '1 0\n1 -1 0' | cryptominisat5 | grep SATISFIABLE
 
