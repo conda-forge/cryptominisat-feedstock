@@ -1,0 +1,33 @@
+From a9d870a5abef1a3a53098eff0459d260b0cebc8b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julian=20R=C3=BCth?= <julian.rueth@fsfe.org>
+Date: Fri, 16 Apr 2021 21:19:18 +0200
+Subject: [PATCH] remove macOS sysroot
+
+---
+ python/CMakeLists.txt | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
+index 8669548c5..6b0bf71d1 100644
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -76,16 +76,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        ARGS setup.py build_ext --inplace
+        DEPENDS cryptominisat5
+    )
+-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DEFINED ENV{NIX_CC})
+-    execute_process(COMMAND xcrun --show-sdk-path
+-        OUTPUT_VARIABLE PY_OSX_SDK_PATH
+-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+-    message(STATUS "OS X SDK path:  '${PY_OSX_SDK_PATH}'")
+-    add_custom_command(OUTPUT ${OUTPUT}/timestamp
+-       COMMAND ${CMAKE_COMMAND} -E env "CFLAGS='-isysroot${PY_OSX_SDK_PATH} $ENV{CFLAGS}'" ${PYTHON_EXECUTABLE}
+-       ARGS setup.py build_ext --inplace --rpath ../lib
+-       DEPENDS cryptominisat5
+-    )
+ else()
+     add_custom_command(OUTPUT ${OUTPUT}/timestamp
+        COMMAND ${PYTHON_EXECUTABLE}
+-- 
+2.31.1
+
