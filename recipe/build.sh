@@ -17,6 +17,9 @@ cmake \
   -DFORCE_PYTHON2=`[[ $PY3K == 1 ]] && echo OFF || echo ON` \
   -DENABLE_TESTING=OFF \
   -DBoost_NO_BOOST_CMAKE=ON \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DBUILD_SHARED_LIBS=ON \
+  -DCMAKE_BUILD_TYPE=Release \
   ${SRC_DIR}
 
 make -j${CPU_COUNT} install
