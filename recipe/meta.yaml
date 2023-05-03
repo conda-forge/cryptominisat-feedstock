@@ -1,29 +1,26 @@
 {% set name = "cryptominisat" %}
-{% set version = "5.8.0" %}
-{% set sha256 = "50153025c8503ef32f32fff847ee24871bb0fc1f0b13e17fe01aa762923f6d94" %}
+{% set version = "5.11.4" %}
+{% set sha256 = "abeecb29a73e8566ae6e9afd229ec991d95b138985565b2378af95ef1ce1d317" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
   url: https://github.com/msoos/{{ name }}/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-Use-CFLAGS.patch
-    - 0002-remove-sysroot.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [win]
   run_exports:
-    - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
+    - {{ pin_subpackage('cryptominisat', max_pin='x.x') }}
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
+    - make   # [unix]
   host:
     - python
     - setuptools
