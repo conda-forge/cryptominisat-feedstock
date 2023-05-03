@@ -24,6 +24,7 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
+    - make   # [unix]
   host:
     - python
     - setuptools
