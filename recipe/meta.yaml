@@ -7,12 +7,8 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
   url: https://github.com/msoos/{{ name }}/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-Use-CFLAGS.patch
-    - 0002-remove-sysroot.patch
 
 build:
   number: 0
