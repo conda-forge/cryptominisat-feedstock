@@ -29,10 +29,10 @@ requirements:
     - python
     - setuptools <60
     - libboost-devel
+    - libsqlite
     - zlib
   run:
     - python
-    - zlib
 
 test:
   imports:
