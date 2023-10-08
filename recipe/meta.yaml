@@ -18,15 +18,16 @@ build:
   number: 2
   skip: true  # [win]
   run_exports:
-    - {{ pin_compatible('cryptominisat', max_pin='x.x') }}
+    - {{ pin_subpackage('cryptominisat', max_pin='x.x') }}
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - cmake
+    - make   # [linux]
   host:
     - python
-    - setuptools
+    - setuptools <60
     - libboost-devel
     - zlib
   run:
