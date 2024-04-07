@@ -1,6 +1,6 @@
 {% set name = "cryptominisat" %}
-{% set version = "5.8.0" %}
-{% set sha256 = "50153025c8503ef32f32fff847ee24871bb0fc1f0b13e17fe01aa762923f6d94" %}
+{% set version = "5.11.21" %}
+{% set sha256 = "288fd53d801909af797c72023361a75af3229d1806dbc87a0fcda18f5e03763b" %}
 
 package:
   name: {{ name|lower }}
@@ -15,7 +15,7 @@ source:
     - 0002-remove-sysroot.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [win]
   run_exports:
     - {{ pin_subpackage('cryptominisat', max_pin='x.x') }}
