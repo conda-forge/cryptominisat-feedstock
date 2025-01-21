@@ -1,15 +1,13 @@
-{% set name = "cryptominisat" %}
 {% set version = "5.11.22" %}
-{% set sha256 = "e39f3a066a979e6033efb95b8732912a0888654aabc375b999ad85674c7abf44" %}
 
 package:
-  name: {{ name|lower }}
+  name: cryptominisat
   version: {{ version }}
 
 source:
   fn: {{ version }}.tar.gz
-  url: https://github.com/msoos/{{ name }}/archive/{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/msoos/cryptominisat/archive/{{ version }}.tar.gz
+  sha256: e39f3a066a979e6033efb95b8732912a0888654aabc375b999ad85674c7abf44
 
 build:
   number: 0
