@@ -24,7 +24,7 @@ requirements:
   build:
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    - cmake
+    - cmake <4
     - make   # [linux]
   host:
     - python
