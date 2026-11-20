@@ -19,5 +19,5 @@ cmake --install build
 
 # The oracle sub-solver is an internal helper that libcryptominisat5 does not
 # link against; its generic file names would clash with other packages.
-rm -v "${PREFIX}/bin/oracle" "${PREFIX}"/lib/liboracle.so* "${PREFIX}/include/oracle/oracle.h"
+rm -v "${PREFIX}/bin/oracle" "${PREFIX}"/lib/liboracle${SHLIB_EXT}* "${PREFIX}/include/oracle/oracle.h"
 rmdir "${PREFIX}/include/oracle"
