@@ -1,0 +1,183 @@
+schema_version: 1
+
+context:
+  version: "5.18.0"
+
+recipe:
+  name: cryptominisat-split
+  version: ${{ version }}
+
+source:
+  url: https://github.com/msoos/cryptominisat/archive/refs/tags/release/v${{ version }}.tar.gz
+  sha256: 44b960a43c4eefc7f800ab5f3ec5c43f670c669e6bdec6a87b49138fedb0c34b
+
+build:
+  number: 0
+  skip: win
+
+outputs:
+  - staging:
+      name: cryptominisat-build
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+        - pkgconf
+      host:
+        - gmp
+        - zlib
+    build:
+      script: build-lib.sh
+
+  - package:
+      name: libcryptominisat
+    inherit:
+      from: cryptominisat-build
+      run_exports: false
+    build:
+      files:
+        - include/cryptominisat5/
+        - lib/libcryptominisat5.so*
+        - lib/libcryptominisat5*.dylib
+        - lib/cmake/cryptominisat5/
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+      host:
+        # Also needed by consumers: gmpxx.h is included by the public headers.
+        - gmp
+      run_exports:
+        - ${{ pin_subpackage('libcryptominisat', upper_bound='x.x') }}
+      run_constraints:
+        # cryptominisat <5.18 shipped the library, CLI and Python bindings.
+        - cryptominisat >=5.18
+    tests:
+      - package_contents:
+          include:
+            - cryptominisat5/cryptominisat.h
+          lib:
+            - cryptominisat5
+          files:
+            - lib/cmake/cryptominisat5/cryptominisat5Config.cmake
+      - script:
+          - $CXX $CXXFLAGS -std=c++17 test.cpp -o test -I$PREFIX/include $LDFLAGS -lcryptominisat5
+          - ./test
+        files:
+          recipe:
+            - test.cpp
+        requirements:
+          run:
+            - ${{ compiler('cxx') }}
+    about:
+      summary: An advanced SAT solver (C++ library)
+
+  - package:
+      name: cryptominisat
+    inherit:
+      from: cryptominisat-build
+      run_exports: false
+    build:
+      files:
+        - bin/cryptominisat5
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+      host:
+        - ${{ pin_subpackage('libcryptominisat', exact=True) }}
+        - gmp
+        - zlib
+      run:
+        - ${{ pin_subpackage('libcryptominisat', exact=True) }}
+    tests:
+      - package_contents:
+          bin:
+            - cryptominisat5
+      - script:
+          - cryptominisat5 --version
+          - echo -e '1 0\n-1 0' | cryptominisat5 --verb 0 | grep -x 's UNSATISFIABLE'
+          - echo -e '1 0\n1 -1 0' | cryptominisat5 --verb 0 | grep -x 's SATISFIABLE'
+    about:
+      summary: An advanced SAT solver (command line executable)
+
+  - package:
+      name: pycryptosat
+    inherit:
+      from: cryptominisat-build
+      run_exports: false
+    build:
+      script: build-python.sh
+      files:
+        - lib/python*/site-packages/
+    requirements:
+      build:
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - cmake
+        - ninja
+        - pkgconf
+        - if: build_platform != target_platform
+          then:
+            - python
+            - cross-python_${{ target_platform }}
+      host:
+        - python
+        - pip
+        - scikit-build-core
+        - ${{ pin_subpackage('libcryptominisat', exact=True) }}
+        - gmp
+        - zlib
+      ignore_run_exports:
+        from_package:
+          # Only their headers are needed; the extension links neither.
+          - gmp
+          - zlib
+      run:
+        - python
+        - ${{ pin_subpackage('libcryptominisat', exact=True) }}
+      run_constraints:
+        # cryptominisat <5.18 shipped the pycryptosat module itself.
+        - cryptominisat >=5.18
+    tests:
+      - python:
+          imports:
+            - pycryptosat
+          pip_check: true
+      - script:
+          - pytest -v python/tests
+        files:
+          source:
+            - python/tests/
+        requirements:
+          run:
+            - pytest
+    about:
+      summary: Python bindings for the CryptoMiniSat SAT solver
+
+about:
+  homepage: https://www.msoos.org
+  repository: https://github.com/msoos/cryptominisat
+  license: MIT
+  license_file:
+    - LICENSE.txt
+    # cryptominisat vendors a patched version of yals
+    - src/yals/LICENSE
+    # cryptominisat vendors a patched version of mpicosat
+    - src/mpicosat/LICENSE
+  summary: An advanced SAT solver
+  description: |
+    CryptoMiniSat is a modern, multi-threaded, feature-rich, simplifying SAT
+    solver with XOR reasoning. `libcryptominisat` contains the C++ library,
+    `cryptominisat` the cryptominisat5 executable and `pycryptosat` the
+    Python bindings.
+
+extra:
+  recipe-maintainers:
+    - gshiba
+    - msoos
+    - saraedum
