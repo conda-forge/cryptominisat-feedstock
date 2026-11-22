@@ -12,7 +12,7 @@ source:
   sha256: 44b960a43c4eefc7f800ab5f3ec5c43f670c669e6bdec6a87b49138fedb0c34b
 
 build:
-  number: 0
+  number: 1
   skip: win
 
 outputs:
